@@ -1,0 +1,11 @@
+--- python3-python-reportlab-3.4.0-6.el8_1.3/tools/pythonpoint/demos/htu.xml
++++ python3-python-reportlab-3.4.0-6.el8_1.3/tools/pythonpoint/demos/htu.xml
+@@ -34,7 +34,7 @@
+             þ ø İ ı ľ ĸ
+             >>> 
+             -->
+-          <font name="Serif" size="32"> 0 ^  1 _</font>
++          <font name="Serif" size="32">Ğ ğ İ ı Ş ş</font>
+         </para>
+       </frame>
+     </slide>
