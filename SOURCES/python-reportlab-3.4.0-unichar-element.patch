@@ -1,0 +1,31 @@
+--- python3-python-reportlab-3.4.0-9.el8/src/reportlab/platypus/paraparser.py
++++ python3-python-reportlab-3.4.0-9.el8/src/reportlab/platypus/paraparser.py
+@@ -841,7 +841,11 @@ class ParaParser(HTMLParser):
+                 v = '\0'
+         elif 'code' in attr:
+             try:
+-                v = int(eval(attr['code']))
++                v = attr['code'].lower()
++                if v.startswith('0x'):
++                    v = int(v,16)
++                else:
++                    v = int(v,0)    #treat as a python literal would be
+                 v = chr(v) if isPy3 else unichr(v)
+             except:
+                 self._syntax_error('<unichar/> invalid code attribute %s' % ascii(attr['code']))
+--- python3-python-reportlab-3.4.0-9.el8/tests/test_platypus_paragraphs.py
++++ python3-python-reportlab-3.4.0-9.el8/tests/test_platypus_paragraphs.py
+@@ -306,6 +306,13 @@ component delimits the traditional pract
+         doc = MyDocTemplate(outputfile('test_platypus_imageandflowables.pdf'),showBoundary=1)
+         doc.multiBuild(story)
+ 
++    def test_unicharCodeSafety(self):
++        """test a bug reported by ravi prakash giri <raviprakashgiri@gmail.com>"""
++        normal = getSampleStyleSheet()['BodyText']
++        self.assertRaises(Exception,Paragraph,
++                """<unichar code="open('/tmp/test.txt','w').write('Hello from unichar')"/>""",
++                normal)
++
+ class TwoFrameDocTemplate(BaseDocTemplate):
+     "Define a simple document with two frames per page."
+     

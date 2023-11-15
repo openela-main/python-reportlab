@@ -1,0 +1,60 @@
+--- python3-python-reportlab-3.4.0-6.el8/src/reportlab/lib/colors.py
++++ python3-python-reportlab-3.4.0-6.el8/src/reportlab/lib/colors.py
+@@ -835,6 +835,44 @@ class cssParse:
+ 
+ cssParse=cssParse()
+ 
++def parseColorClassFromString(arg):
++    splitted = "".join(arg.split()).replace('(', ',').replace(')','').split(',')
++    fingerprint = ''.join(c for c in arg if c in set('(,)'))
++    if (len(splitted) > 0):
++        if (splitted[0] == 'Color'):
++            if (fingerprint == '(,,,)'):
++                try:
++                    return Color(*list(map(float, splitted[1:5])))
++                except:
++                    return None
++            elif (fingerprint == '(,,)'):
++                try:
++                    return Color(*list(map(float, splitted[1:4])))
++                except:
++                    return None
++        elif (splitted[0] == 'CMYKColor' and fingerprint == '(,,,)'):
++            try:
++                return CMYKColor(*list(map(float, splitted[1:5])))
++            except:
++                return None
++        elif (splitted[0] == 'PCMYKColor' and fingerprint == '(,,,)'):
++            try:
++                return PCMYKColor(*list(map(float, splitted[1:5])))
++            except:
++                return None
++        elif (splitted[0] == 'CMYKColorSep' and fingerprint == '(,,,)'):
++            try:
++                return CMYKColorSep(*list(map(float, splitted[1:5])))
++            except:
++                return None
++        elif (splitted[0] == 'PCMYKColorSep' and fingerprint == '(,,,)'):
++            try:
++                return PCMYKColorSep(*list(map(float, splitted[1:5])))
++            except:
++                return None
++    else:
++                return None
++
+ class toColor:
+ 
+     def __init__(self):
+@@ -860,10 +898,8 @@ class toColor:
+             C = getAllNamedColors()
+             s = arg.lower()
+             if s in C: return C[s]
+-            try:
+-                return toColor(eval(arg))
+-            except:
+-                pass
++            parsedColor = parseColorClassFromString(arg)
++            if (parsedColor): return parsedColor
+ 
+         try:
+             return HexColor(arg)
