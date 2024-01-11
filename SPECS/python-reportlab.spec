@@ -3,7 +3,7 @@
 
 Name:           python-%{pypi}
 Version:        3.4.0
-Release:        8%{?dist}.1
+Release:        8%{?dist}.2
 Summary:        Library for generating PDFs and graphics
 License:        BSD
 URL:            http://www.reportlab.org/
@@ -12,7 +12,7 @@ Source0:        https://pypi.python.org/packages/source/r/%{pypi}/%{pypi}-%{vers
 # https://bugzilla.redhat.com/show_bug.cgi?id=1769661
 Patch0:         python-reportlab-3.4.0-color-eval.patch
 
-# https://issues.redhat.com/browse/RHEL-7008
+# https://issues.redhat.com/browse/RHEL-7009
 Patch1:         python-reportlab-3.4.0-invalid-char.patch
 Patch2:         python-reportlab-3.4.0-unichar-element.patch
 
@@ -84,10 +84,14 @@ rm -rf %{buildroot}%{python3_sitearch}/reportlab/fonts
 #%doc docs/*.pdf
 
 %changelog
-* Tue Sep 26 2023 Marek Kasik <mkasik@redhat.com> - 3.4.0-8.el8_8.1
+* Wed Sep 27 2023 Marek Kasik <mkasik@redhat.com> - 3.4.0-8.el8_9.2
+- Rebuild for 8.9.0 y-branch
+- Resolves: RHEL-7009
+
+* Tue Sep 26 2023 Marek Kasik <mkasik@redhat.com> - 3.4.0-8.el8_9.1
 - Do not evaluate unichar element
 - Replace an invalid char with a correct one (rpminspect)
-- Resolves: RHEL-7008
+- Resolves: RHEL-7009
 
 * Wed Jan 15 2020 Marek Kasik <mkasik@redhat.com> - 3.4.0-8
 - Fix Requires for doc subpackage
